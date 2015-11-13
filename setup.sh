@@ -29,7 +29,7 @@ echo "INFO: Creating user $INFLUXDB_USERNAME with password"
 if [ -n "${PRE_CREATE_DB}" ]
 then
     echo "INFO: About to create the following database: ${PRE_CREATE_DB}"
-    if [ -f "/data/.pre_db_created" ]
+    if [ -f "/opt/influxdb/.pre_db_created" ]
     then
         echo "INFO: Database had been created before, skipping ..."
     else
@@ -42,7 +42,7 @@ then
         done
         echo ""
 
-        touch "/data/.pre_db_created"
+        touch "/opt/influxdb/.pre_db_created"
         fg
         exit 0
     fi
