@@ -2,7 +2,7 @@ FROM debian:jessie
 MAINTAINER Daniel Kuehne <dkhmailto@googlemail.com>
 
 ENV INFLUXDB_VERSION 0.9.4.2
-ENV GOSU_VERSION 1.4
+ENV GOSU_VERSION 1.7
 ENV ENVPLATE_VERSION 0.0.8
 ENV TZ Europe/Berlin
 
