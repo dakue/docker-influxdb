@@ -18,7 +18,7 @@ then
     /usr/local/bin/ep -v "${CONFIG_FILE}"
 
     echo "INFO: Starting InfluxDB ..."
-    exec /usr/local/bin/gosu influxdb:influxdb /opt/influxdb/influxd -config "${CONFIG_FILE}" -pidfile "${PID_FILE}"
+    exec /usr/local/bin/gosu influxdb:influxdb /usr/bin/influxd -config "${CONFIG_FILE}" -pidfile "${PID_FILE}"
 fi
 
 exec "$@"

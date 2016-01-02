@@ -24,12 +24,12 @@ then
 fi
 
 echo "INFO: Creating user $INFLUXDB_USERNAME with password"
-/opt/influxdb/influx -host=localhost -execute "CREATE USER $INFLUXDB_USERNAME WITH PASSWORD '$INFLUXDB_PASSWORD' WITH ALL PRIVILEGES"
+influx -host=localhost -execute "CREATE USER $INFLUXDB_USERNAME WITH PASSWORD '$INFLUXDB_PASSWORD' WITH ALL PRIVILEGES"
 
 if [ -n "${PRE_CREATE_DB}" ]
 then
     echo "INFO: About to create the following database: ${PRE_CREATE_DB}"
-    if [ -f "/opt/influxdb/.pre_db_created" ]
+    if [ -f "/tmp/.pre_db_created" ]
     then
         echo "INFO: Database had been created before, skipping ..."
     else
@@ -38,11 +38,11 @@ then
         for x in $arr
         do
             echo "INFO: Creating database: ${x}"
-            /opt/influxdb/influx -host=localhost -port=8086 -username="$INFLUXDB_USERNAME" -password="$INFLUXDB_PASSWORD" -execute="CREATE DATABASE ${x}"
+            influx -host=localhost -port=8086 -username="$INFLUXDB_USERNAME" -password="$INFLUXDB_PASSWORD" -execute="CREATE DATABASE ${x}"
         done
         echo ""
 
-        touch "/opt/influxdb/.pre_db_created"
+        touch "/tmp/.pre_db_created"
         fg
         exit 0
     fi
