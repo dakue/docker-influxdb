@@ -1,7 +1,7 @@
 FROM debian:jessie
 MAINTAINER Daniel Kuehne <dkhmailto@googlemail.com>
 
-ENV INFLUXDB_VERSION 0.9.4.2
+ENV INFLUXDB_VERSION 0.9.6
 ENV GOSU_VERSION 1.7
 ENV ENVPLATE_VERSION 0.0.8
 ENV TZ Europe/Berlin
@@ -43,7 +43,7 @@ RUN chmod +x /setup.sh
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
-EXPOSE 2003 4242 8083 8086 8088 25826
+EXPOSE 2003 4242 8083 8086 8088 25826/udp
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["influxdb"]
