@@ -5,6 +5,8 @@ ENV INFLUXDB_VERSION 0.9.6
 ENV GOSU_VERSION 1.7
 ENV ENVPLATE_VERSION 0.0.8
 ENV TZ Europe/Berlin
+ENV DUMP_INIT_VERSION 1.0.0
+ENV TINI_VERSION 0.8.4
 
 RUN echo $TZ > /etc/timezone && \
   DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
@@ -25,7 +27,11 @@ RUN set -x && \
   chmod +x /usr/local/bin/gosu && \
   curl -ssL "https://github.com/kreuzwerker/envplate/releases/download/v${ENVPLATE_VERSION}/ep-linux" -o /usr/local/bin/ep && \
   chmod +x /usr/local/bin/ep && \
-  ln -s /usr/local/bin/ep /usr/local/bin/envplate
+  ln -s /usr/local/bin/ep /usr/local/bin/envplate && \
+  curl -sSL "https://github.com/Yelp/dumb-init/releases/download/v${DUMP_INIT_VERSION}/dumb-init_${DUMP_INIT_VERSION}_amd64" -o /usr/local/bin/dumb-init && \
+  chmod +x /usr/local/bin/dumb-init && \
+  curl -sSL "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static" -o /usr/local/bin/tini && \
+  chmod +x /usr/local/bin/tini
 
 COPY influxdb.conf /etc/influxdb/config.toml
 
@@ -37,13 +43,16 @@ RUN set -x && \
 
 VOLUME /var/lib/influxdb
 
-COPY setup.sh /
-RUN chmod +x /setup.sh
-
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
+COPY influxdb-start.sh /
+RUN chmod +x /influxdb-start.sh
+
+COPY influxdb-setup.sh /
+RUN chmod +x /influxdb-setup.sh
+
 EXPOSE 2003 4242 8083 8086 8088 25826/udp
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/tini","--","/docker-start.sh"]
 CMD ["influxdb"]

@@ -12,7 +12,7 @@ then
     mkdir -p /var/lib/influxdb/hh
     chown -R influxdb:influxdb /var/lib/influxdb
 
-    /setup.sh &
+    #/setup.sh &
     
     echo "INFO: Executing envplate to replace environment variables in configuration file"
     /usr/local/bin/ep -v "${CONFIG_FILE}"
