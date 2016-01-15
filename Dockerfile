@@ -51,5 +51,5 @@ RUN chmod +x /influxdb-setup.sh
 
 EXPOSE 2003 4242 8083 8086 8088 25826/udp
 
-ENTRYPOINT ["/usr/local/bin/tini","--","/docker-start.sh"]
+ENTRYPOINT ["/usr/local/bin/tini","--","/docker-entrypoint.sh"]
 CMD ["influxdb"]
