@@ -9,5 +9,6 @@ dependencies:
 
 test:
   override:
-    - docker run -d -p 8086:8086 dakue/influxdb; sleep 30
+    - docker run -d -p 8086:8086 --name influxdb dakue/influxdb; sleep 30
+    - docker logs influxdb
     - curl --retry 10 --retry-delay 5 -v http://localhost:8086
