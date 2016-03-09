@@ -12,4 +12,4 @@ test:
     - docker run -d -p 8086:8086 --name influxdb dakue/influxdb
     - ( i=0; until nc -w 1 -q 0 localhost 8086; do echo $i; test $i -ge 5 && break; sleep 5; ((i++)); done ) || true
     - curl -sSL -I -X GET http://localhost:8086/ping | tee $CIRCLE_ARTIFACTS/curl.log | grep "200 OK" && touch .passed
-    - if  [ ! -f .passed ]; then docker logs influxdb; fi;
+    - if  [ ! -f .passed ]; then docker logs influxdb | tee $CIRCLE_ARTIFACTS/docker.log; fi;
